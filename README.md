@@ -8,6 +8,8 @@ and leaves everything else alone.
 
 Built in an evening because I wanted it. It works; it isn't polished.
 
+<img src="docs/panel.png" width="380" alt="Window Brightness panel: a master slider and one slider per window">
+
 ## Why "alpha"
 
 There is no per-window brightness on macOS, and there can't be — every window is
