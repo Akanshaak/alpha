@@ -1,0 +1,5 @@
+windim
+windimui
+*.o
+*.dSYM
+.DS_Store

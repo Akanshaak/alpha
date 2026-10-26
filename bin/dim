@@ -1,0 +1,23 @@
+#!/bin/zsh
+# dim — per-window brightness control.
+#   dim ui            menu-bar panel (pick any window, slider per window)
+#   dim               hover a window for 3s to dim it
+#   dim Safari        dim that app's frontmost window
+#   dim more|less     adjust CLI overlays
+#   dim off           clear everything
+D="${WINDIM_DIR:-$HOME/tools/windim}"
+
+case "${1:-}" in
+  ui)       pgrep -x windimui >/dev/null && echo "panel already running (menu bar ◐)" \
+              || { (nohup $D/windimui >/dev/null 2>&1 &); echo "panel started — click ◐ in the menu bar" } ;;
+  ui-off)   pkill -x windimui && echo "panel quit" || echo "panel not running" ;;
+  ""|pick)  $D/windim --pick --delay 3 --alpha "${2:-0.55}" & ;;
+  here)     $D/windim --pick --alpha "${2:-0.55}" & ;;
+  id)       $D/windim --id "$2" --alpha "${3:-0.55}" & ;;
+  list)     $D/windim --list ;;
+  more)     pgrep -x windim | xargs kill -USR1 2>/dev/null || echo "no CLI overlay" ;;
+  less)     pgrep -x windim | xargs kill -USR2 2>/dev/null || echo "no CLI overlay" ;;
+  off)      pkill -x windim; pkill -x windimui; echo "all overlays cleared" ;;
+  status)   echo "CLI: $(pgrep -x windim | tr '\n' ' ' || echo none)"; echo "panel: $(pgrep -x windimui || echo none)" ;;
+  *)        $D/windim --app "$1" --alpha "${2:-0.55}" & ;;
+esac
